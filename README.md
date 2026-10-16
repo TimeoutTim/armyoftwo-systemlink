@@ -67,5 +67,4 @@ AI was used for reverse-engineering hypotheses, implementation, refactoring,
 documentation, and build automation under human direction. The behavior was
 iteratively reviewed and tested on real Xbox 360 hardware by the project
 maintainer. AI-generated code can contain subtle errors; contributors and
-users should audit the source and treat native kernel plugins as high-risk
-software.
+users should audit the source.
