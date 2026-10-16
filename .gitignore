@@ -1,0 +1,12 @@
+/build/
+/inputs/
+/tools/xex_rebuild/target/
+__pycache__/
+*.py[cod]
+*.xex
+*.iso
+*.pe
+*.obj
+*.pdb
+*.xxx
+*.xdelta

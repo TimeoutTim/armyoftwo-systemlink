@@ -1,0 +1,9 @@
+[package]
+name = "ao2-xex-rebuild"
+version = "0.1.0"
+edition = "2024"
+publish = false
+license = "GPL-3.0-only"
+
+[dependencies]
+xex2 = { git = "https://github.com/landaire/acceleration", rev = "7fdfb071e39c437119b4cf33170a06cf054f9727" }
