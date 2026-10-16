@@ -18,8 +18,6 @@ This repository contains the native patch source, generated Xenia-format patch, 
 - Two-player campaign gameplay on real Xbox 360 hardware.
 - Native disconnect handling and session cleanup, including host departure from the pre-game lobby.
 
-The browser's most recent reopen fix (after an unused texture is collected) has automated coverage; repeated controller-driven reopen after disconnect still needs confirmation on that exact revision. This is experimental software, not a compatibility claim for every mission or console setup. Versus, Internet matchmaking, host migration, and retail-console title-update installation are not implemented. See [testing and limitations](docs/TESTING.md).
-
 ## Supported game
 
 Only this original executable is supported. Other regions, revisions, and title updates must not be patched by bypassing the guards.
