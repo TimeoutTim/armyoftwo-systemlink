@@ -33,10 +33,12 @@ def build(source, target, output, purpose, require_original=True):
     manifest.write_text(json.dumps(metadata, indent=2)+'\n')
     shutil.copyfile(Path(__file__).with_name('apply_xex_delta.py'), output/'apply_xex_delta.py')
     (output/'INSTALL.txt').write_text(
-        purpose+'\n\nRequires Python 3 and xdelta3 on PATH.\n'
+        purpose+'\n\nRequires Python 3 and xdelta3 on PATH; no compiler or Xbox SDK.\n'
         'Keep the original default.xex. In this directory run:\n'
         'python apply_xex_delta.py /path/to/original/default.xex army-of-two.xdelta '
         'manifest.json default-lan.xex\n\n'
+        'On Windows use python; on Linux/macOS python3 may be required.\n'
+        'Quote paths containing spaces. xdelta3.exe must be on PATH on Windows.\n'
         'The output must not already exist. Input and output hashes are checked.\n'
         'The patch is standard VCDIFF and can also be applied with xdelta3 directly;\n'
         'the provided script adds source-version and final-output verification.\n')

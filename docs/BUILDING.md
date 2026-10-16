@@ -66,7 +66,7 @@ python3 tools/build_native_lan_patch.py \
 
 The expected pristine mapped-PE SHA-256 is `a9452f5d919ff66b822a16b4224d5a0bb0a30b829121579b0d8e092c871b879c`.
 
-## Optional binary-diff bundle
+## Binary-patch releases
 
 With `xdelta3` installed, generate a VCDIFF bundle locally:
 
@@ -78,7 +78,7 @@ python3 tools/build_xex_delta.py \
   --purpose 'Army of Two experimental System Link campaign co-op'
 ```
 
-The builder verifies exact reconstruction. The bundle includes `army-of-two.xdelta`, a hash manifest, the application script, and instructions. Applying an existing bundle needs only Python and xdelta3, not Rust, Wine, or the SDK. Re-encryption/compression can make the delta large. The source repository includes the generation tools, not a game-derived delta or rebuilt executable.
+The builder verifies exact reconstruction. The bundle includes `army-of-two.xdelta`, a hash manifest, the application script, and instructions. Applying an existing bundle needs only Python and xdelta3, not Rust, Wine, or the SDK. Re-encryption/compression can make the delta large. The source repository tracks the generation tools; binary patches are uploaded as Release assets, not committed to Git. Rebuilt executables are not included in the release bundle.
 
 ## Tests
 
@@ -87,3 +87,16 @@ python3 -m unittest discover -s tests
 ```
 
 Install `cc` for the host-compiled native logic tests and `xdelta3` for delta roundtrips. The latter tests explicitly skip if xdelta3 is absent. These tests do not exercise the whole game; hardware checks remain necessary.
+
+### Package upload-ready release assets
+
+After committing the source and release notes, run from a clean checkout:
+
+```sh
+python3 tools/package_release.py \
+  --source /path/to/original/default.xex \
+  --target build/release/default-lan.xex \
+  --version v0.1.0-alpha.1
+```
+
+This creates a patch ZIP, matching committed-source ZIP, and SHA256SUMS file under `build/releases/`. It verifies patch reconstruction before packaging and records the source commit in the manifest. Upload all three files to the same Release. The source archive is included to make the corresponding GPL-3.0 source readily available. Do not upload the original/modified XEX or intermediate images. Existing release outputs are never overwritten; use a fresh output directory when rebuilding an unpublished candidate.

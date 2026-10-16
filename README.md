@@ -29,19 +29,32 @@ Only this original executable is supported. Other regions, revisions, and title 
 | Original Xenia module hash | `2EDC4C4CEC3F7F8D` |
 | Original `default.xex` SHA-256 | `246556f56d4062e05d708359f3e7ab0840b4035f426fa380f5bf152436c1d771` |
 
-## Build and install
+## Install the release patch (recommended)
 
-- [Build a patched executable](docs/BUILDING.md) from the checked-in patch, or recompile the C source.
-- [Install and play on Xbox 360 or Xenia](docs/INSTALLING.md).
-- [Architecture and patch format](docs/ARCHITECTURE.md).
+Download the **`armyoftwo-systemlink-<version>-patch.zip`** asset from this repository's Releases page and extract it. This is a binary patch for your original `default.xex`; **you do not need to build from source, install the Xbox SDK, or use Wine or Rust**.
 
-The TOML uses Xenia's patch syntax, but **enabling it on the original XEX alone is insufficient**: the payload also needs an executable XEX memory page. The included rebuild tool applies that guarded container change. Use the rebuilt XEX for hardware and emulator testing.
+Install Python 3 and `xdelta3`, then run from the extracted patch directory:
+
+```sh
+python3 apply_xex_delta.py /path/to/original/default.xex \
+  army-of-two.xdelta manifest.json default-lan.xex
+```
+
+On Windows, use `python` instead of `python3`, and put `xdelta3.exe` on your PATH. The application script checks the original file, patch, and output hashes and preserves your original executable. Copy the resulting `default-lan.xex` alongside your original game content on a modified Xbox 360 and launch it. See [installation and play instructions](docs/INSTALLING.md) for the full steps, requirements, and rollback.
+
+The `.xdelta` file is standard VCDIFF, so compatible xdelta patching frontends can also apply it. The included script is recommended because it verifies the supported game revision and reconstructed executable automatically.
+
+## Building and contributing
+
+[Build instructions](docs/BUILDING.md) cover packaging the checked-in patch and recompiling the native source. [Architecture](docs/ARCHITECTURE.md) describes the hooks and networking.
+
+The TOML uses Xenia's patch syntax, but **enabling it on the original XEX alone is insufficient**: the payload also needs an executable XEX memory page. Both the release binary patch and the source-build pipeline produce an XEX with that change already applied. Use the resulting XEX for hardware and emulator testing.
 
 ## Repository layout
 
 - `native/`: freestanding PowerPC C; title-owned initialization, menus, discovery, admission, and cleanup.
 - `patches/`: generated TOML plus original-byte guards; comments describe every write.
-- `tools/`: compiler/packaging scripts, verified XEX rebuilding, and optional binary-diff tools.
+- `tools/`: compiler/packaging scripts, verified XEX rebuilding, and binary-patch release tools.
 - `tests/`: focused tests using synthetic inputs; no game or SDK files needed.
 
 Original project code and patch tooling are licensed **GPL-3.0-only**. See [LICENSE](LICENSE) and [third-party dependencies](THIRD_PARTY.md). This is an independent project, not affiliated with EA or Microsoft. The license does not cover the game or separately supplied SDK.

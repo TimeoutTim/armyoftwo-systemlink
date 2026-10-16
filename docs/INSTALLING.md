@@ -1,12 +1,37 @@
 # Installing and playing
 
+## Apply the release patch (recommended)
+
+Download `armyoftwo-systemlink-<version>-patch.zip` from the repository's Releases page and extract it. Use the patch asset, not the source-code ZIP. The matching SHA256SUMS file lets you verify the downloaded archive.
+
+You need an untouched supported `default.xex`, Python 3, and `xdelta3` on PATH. No compiler, Xbox SDK, Rust, Wine, or emulator is required to apply the patch.
+
+From the extracted patch directory, run:
+
+```sh
+python3 apply_xex_delta.py /path/to/original/default.xex \
+  army-of-two.xdelta manifest.json default-lan.xex
+```
+
+On Windows, use `python` and ensure `xdelta3.exe` is on PATH. Quote paths containing spaces. The destination must not exist. Source, patch, and reconstructed-output hashes are checked; a wrong game version or damaged patch is rejected without overwriting your original.
+
+Alternatively, use a VCDIFF-compatible xdelta frontend with **original/source** = your untouched `default.xex`, **patch** = `army-of-two.xdelta`, and **output** = a new `default-lan.xex`. Verify the output SHA-256 against `target.sha256` in `manifest.json`. The included Python script performs these checks automatically.
+
+The original executable SHA-256 must be:
+
+```text
+246556f56d4062e05d708359f3e7ab0840b4035f426fa380f5bf152436c1d771
+```
+
+Install the resulting executable using the steps below. Developers can also produce it using the [source-build instructions](BUILDING.md).
+
 ## Xbox 360
 
 Use a console capable of running modified XEX files (the project has been tested on modified/debug-capable hardware). An unmodified retail console will not run this build. This is a patched executable, not a custom title update or DashLaunch plugin.
 
 1. Keep an untouched backup of your game and saves. Create a separate extracted game directory on the console HDD, for example `Hdd1/Games/ArmyOfTwo-SystemLink/`.
 2. Copy the full original game content there using your existing FTP or USB workflow. Preserve the original directory structure and content filenames.
-3. Copy `build/release/default-lan.xex` into that directory, beside the original `default.xex`. Do not install intermediate `.pe` files or `packaging-baseline.xex`.
+3. Copy the patched `default-lan.xex` into that directory, beside the original `default.xex`. Do not install intermediate `.pe` files or `packaging-baseline.xex`.
 4. Launch **`default-lan.xex`** explicitly from your dashboard/file manager. If your dashboard only launches `default.xex`, rename the original to `default-original.xex` in this separate copy and name the patched file `default.xex`.
 5. Use the same patch revision and original content on both consoles. Disable title updates for this separate game copy; other executable revisions are unsupported.
 6. Sign in to a local profile on each console and complete normal storage-device prompts. Connect both consoles to the same LAN/broadcast domain.
@@ -18,17 +43,6 @@ The browser polls while open, so opening Join before the host is supported. Disc
 To leave a pre-game host lobby, press B and confirm. The peer should receive the game's native disconnect message. After dismissing it, another host/join cycle should be possible; report failures with the patch revision and exact sequence.
 
 To roll back, launch the untouched original executable or remove the separate patched game directory. The patch does not require modified game asset packages.
-
-## Applying a generated binary-diff bundle
-
-If you have a matching locally generated bundle from `build_xex_delta.py`, run:
-
-```sh
-python3 apply_xex_delta.py /path/to/original/default.xex \
-  army-of-two.xdelta manifest.json default-lan.xex
-```
-
-Run in the bundle directory. The destination must not exist. Source, patch, and reconstructed-output hashes are checked. Install the result using the Xbox steps above.
 
 ## Xenia
 
