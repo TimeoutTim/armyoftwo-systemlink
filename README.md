@@ -2,11 +2,11 @@
 
 ![Army of Two running on Xbox 360 with System Link Host and Join campaign menu options](docs/images/system-link-menu.jpg)
 
-**Army of Two (2008) was designed around two-player campaign co-op.** Playing through its campaign with a partner was central to the experience. When EA shut down its servers in 2011, online co-op disappeared. The Xbox 360 version never supported System Link, leaving split-screen as the only remaining way to play the campaign together.
+**Army of Two (2008) was built around playing together.** Released exclusively for Xbox 360 and PlayStation 3, it paired a two-player co-op campaign with 2v2 versus multiplayer. When EA shut down the servers in 2011, both versions lost online campaign co-op and versus play. Split-screen campaign co-op remained, but players could no longer share the campaign across separate consoles or play versus at all. A game built around multiplayer had lost much of what defined it.
 
-This project exists to restore **multi-system campaign co-op**: two players, each on their own console and screen, sharing the campaign again. The goal is to recover the quality of the original co-op experience, with the game's own menus, mission selection, and gameplay, while keeping it playable without depending on a publisher-operated service.
+This project aims to restore **multi-system campaign co-op to the Xbox 360 version**: two players, each on their own console and screen, sharing the campaign again. The goal is to preserve the original co-op experience through the game's own menus, mission selection, and gameplay, without depending on a publisher-operated service.
 
-The current implementation is an experimental LAN patch for the **Xbox 360 version of Army of Two**. One console hosts and another joins using local profiles and the game's existing peer networking. No Xbox Live backend, PC helper process, or DashLaunch plugin is required while playing.
+The current implementation is an experimental System Link / LAN patch. One Xbox 360 hosts and another joins using local profiles and the game's existing peer networking. No Xbox Live backend, PC helper process, or DashLaunch plugin is required while playing. The patch does not currently restore versus multiplayer or support the PlayStation 3 version.
 
 This repository contains the native patch source, generated Xenia-format patch, guarded build tools, and tests. Supply your own supported game executable and original game content. Game assets, executable dumps, SDK files, and development captures are not included.
 
