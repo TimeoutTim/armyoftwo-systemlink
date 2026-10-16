@@ -1,5 +1,7 @@
 # Army of Two — System Link
 
+![Army of Two running on Xbox 360 with System Link Host and Join campaign menu options](docs/images/system-link-menu.jpg)
+
 **Army of Two (2008) was designed around two-player campaign co-op.** Playing through its campaign with a partner was central to the experience. When EA shut down its servers in 2011, online co-op disappeared. The Xbox 360 version never supported System Link, leaving split-screen as the only remaining way to play the campaign together.
 
 This project exists to restore **multi-system campaign co-op**: two players, each on their own console and screen, sharing the campaign again. The goal is to recover the quality of the original co-op experience, with the game's own menus, mission selection, and gameplay, while keeping it playable without depending on a publisher-operated service.
@@ -33,16 +35,17 @@ Only this original executable is supported. Other regions, revisions, and title 
 
 Download the **`armyoftwo-systemlink-<version>-patch.zip`** asset from this repository's Releases page and extract it. This is a binary patch for your original `default.xex`; **you do not need to build from source, install the Xbox SDK, or use Wine or Rust**.
 
-Install Python 3 and `xdelta3`, then run from the extracted patch directory:
+**Windows:** use [Delta Patcher](https://github.com/marco-calautti/DeltaPatcher/releases), a free, self-contained GUI. Select a copy of your original `default.xex` and the release's `army-of-two.xdelta`, then apply the patch. No Python installation is needed.
+
+**Linux CLI:** install `xdelta3` and run:
 
 ```sh
-python3 apply_xex_delta.py /path/to/original/default.xex \
-  army-of-two.xdelta manifest.json default-lan.xex
+xdelta3 -d -s /path/to/original/default.xex army-of-two.xdelta default-lan.xex
 ```
 
-On Windows, use `python` instead of `python3`, and put `xdelta3.exe` on your PATH. The application script checks the original file, patch, and output hashes and preserves your original executable. Copy the resulting `default-lan.xex` alongside your original game content on a modified Xbox 360 and launch it. See [installation and play instructions](docs/INSTALLING.md) for the full steps, requirements, and rollback.
+The patch uses standard **xdelta3/VCDIFF**. Check your original and output SHA-256 hashes against `manifest.json`. The included Python script is an optional alternative that performs those hash checks automatically.
 
-The `.xdelta` file is standard VCDIFF, so compatible xdelta patching frontends can also apply it. The included script is recommended because it verifies the supported game revision and reconstructed executable automatically.
+Copy the patched executable alongside your original game content on a modified Xbox 360 and launch it. See [installation and play instructions](docs/INSTALLING.md) for the full Windows/Linux steps, requirements, and rollback.
 
 ## Building and contributing
 

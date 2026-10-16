@@ -4,18 +4,47 @@
 
 Download `armyoftwo-systemlink-<version>-patch.zip` from the repository's Releases page and extract it. Use the patch asset, not the source-code ZIP. The matching SHA256SUMS file lets you verify the downloaded archive.
 
-You need an untouched supported `default.xex`, Python 3, and `xdelta3` on PATH. No compiler, Xbox SDK, Rust, Wine, or emulator is required to apply the patch.
+The patch is standard **xdelta3/VCDIFF**, not a custom format. Choose either method below. Neither requires a compiler, Xbox SDK, Rust, Wine, or emulator.
 
-From the extracted patch directory, run:
+### Windows: Delta Patcher
+
+Use the free, self-contained [Delta Patcher Windows release](https://github.com/marco-calautti/DeltaPatcher/releases). It does not require Python or a separate xdelta3 installation.
+
+1. Make a copy of your untouched `default.xex` in a separate working folder. Keep the original safe: GUI patchers can replace the selected file.
+2. Open Delta Patcher in patch-application mode.
+3. Select the copied executable as **Original file** and `army-of-two.xdelta` as **XDelta patch**.
+4. Apply the patch with checksum validation enabled. Keep the backup option enabled if offered.
+5. Locate the resulting patched executable and name it `default-lan.xex`. Check its SHA-256 against `target.sha256` in the release's `manifest.json` before installing.
+
+PowerShell can compute the hashes without additional software:
+
+```powershell
+Get-FileHash "C:\path\to\original\default.xex" -Algorithm SHA256
+Get-FileHash ".\default-lan.xex" -Algorithm SHA256
+```
+
+### Linux: xdelta3
+
+Install `xdelta3` through your distribution's package manager. From the extracted patch directory:
+
+```sh
+sha256sum /path/to/original/default.xex
+xdelta3 -d -s /path/to/original/default.xex army-of-two.xdelta default-lan.xex
+sha256sum default-lan.xex
+```
+
+Compare the original hash with `source.sha256` and the output hash with `target.sha256` in `manifest.json`. Quote paths containing spaces. Use a new output filename; do not overwrite your original. This command has been tested against the release patch and reconstructs the exact deployed executable.
+
+### Optional: automatic SHA-256 verification
+
+The included helper requires Python 3 and `xdelta3` on PATH:
 
 ```sh
 python3 apply_xex_delta.py /path/to/original/default.xex \
   army-of-two.xdelta manifest.json default-lan.xex
 ```
 
-On Windows, use `python` and ensure `xdelta3.exe` is on PATH. Quote paths containing spaces. The destination must not exist. Source, patch, and reconstructed-output hashes are checked; a wrong game version or damaged patch is rejected without overwriting your original.
-
-Alternatively, use a VCDIFF-compatible xdelta frontend with **original/source** = your untouched `default.xex`, **patch** = `army-of-two.xdelta`, and **output** = a new `default-lan.xex`. Verify the output SHA-256 against `target.sha256` in `manifest.json`. The included Python script performs these checks automatically.
+Use `python` on Windows and ensure `xdelta3.exe` is on PATH. The helper checks source, patch, and output hashes and refuses to replace an existing output file. It is optional; Delta Patcher and the Linux command above use the same patch directly.
 
 The original executable SHA-256 must be:
 

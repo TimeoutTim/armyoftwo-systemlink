@@ -2,7 +2,7 @@
 
 This release restores two-console LAN campaign co-op to the supported Xbox 360 edition of Army of Two (2008), using local profiles and native game menus. No EA server or Xbox Live login is required.
 
-The patch asset contains a standard xdelta3/VCDIFF patch, a hash-checking application script, a manifest, installation instructions, and license information. It requires your original game executable and content. Apply it with Python 3 and xdelta3; no source compilation or SDK is required. See INSTALLING.md in the release archive.
+The patch asset contains a standard xdelta3/VCDIFF patch, a hash-checking application script, a manifest, installation instructions, and license information. It requires your original game executable and content. Apply it with the free Delta Patcher GUI on Windows or the xdelta3 CLI on Linux; Python is optional, and no source compilation or SDK is required. See INSTALLING.md in the release archive.
 
 The initial release payload matches development build v43. Host/join, shared campaign gameplay, live discovery, and pre-game host departure have been tested on two real consoles. The latest browser reopen guard fix has automated coverage, but its exact post-disconnect controller sequence still awaits confirmation. Versus, host migration, other executable revisions, and stock retail consoles are unsupported.
 

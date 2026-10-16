@@ -33,15 +33,19 @@ def build(source, target, output, purpose, require_original=True):
     manifest.write_text(json.dumps(metadata, indent=2)+'\n')
     shutil.copyfile(Path(__file__).with_name('apply_xex_delta.py'), output/'apply_xex_delta.py')
     (output/'INSTALL.txt').write_text(
-        purpose+'\n\nRequires Python 3 and xdelta3 on PATH; no compiler or Xbox SDK.\n'
-        'Keep the original default.xex. In this directory run:\n'
-        'python apply_xex_delta.py /path/to/original/default.xex army-of-two.xdelta '
+        purpose+'\n\nStandard xdelta3/VCDIFF patch; no compiler or Xbox SDK needed.\n\n'
+        'Windows: download the free, self-contained Delta Patcher:\n'
+        'https://github.com/marco-calautti/DeltaPatcher/releases\n'
+        'Patch a COPY of your original default.xex with army-of-two.xdelta.\n'
+        'Keep checksum validation enabled. Retain the original as a backup.\n\n'
+        'Linux CLI (requires xdelta3):\n'
+        'xdelta3 -d -s /path/to/original/default.xex army-of-two.xdelta default-lan.xex\n\n'
+        'Compare source/output SHA-256 hashes with manifest.json.\n'
+        'Optional automatic hash checks (Python 3 and xdelta3 on PATH):\n'
+        'python3 apply_xex_delta.py /path/to/original/default.xex army-of-two.xdelta '
         'manifest.json default-lan.xex\n\n'
-        'On Windows use python; on Linux/macOS python3 may be required.\n'
-        'Quote paths containing spaces. xdelta3.exe must be on PATH on Windows.\n'
-        'The output must not already exist. Input and output hashes are checked.\n'
-        'The patch is standard VCDIFF and can also be applied with xdelta3 directly;\n'
-        'the provided script adds source-version and final-output verification.\n')
+        'On Windows use python and put xdelta3.exe on PATH for the helper.\n'
+        'Quote paths containing spaces. Use a new output filename.\n')
     return metadata
 
 
